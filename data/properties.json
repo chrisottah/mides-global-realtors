@@ -1,0 +1,53 @@
+{
+  "properties": [
+    {
+      "id": "1",
+      "slug": "luxury-4-bedroom-lekki",
+      "title": "Luxury 4-Bedroom Duplex",
+      "type": "building",
+      "category": "residential",
+      "price": 250000000,
+      "priceNaira": "₦250M",
+      "location": "Lekki Phase 1, Lagos",
+      "bedrooms": 4,
+      "bathrooms": 4.5,
+      "size": "350 sqm",
+      "status": "available",
+      "description": "Stunning luxury duplex in the heart of Lekki Phase 1. Features include private swimming pool, smart home system, fully equipped kitchen, and 24/7 security.",
+      "images": ["/images/prop1-1.jpg", "/images/prop1-2.jpg"],
+      "features": ["Swimming Pool", "Smart Home", "Parking", "Generator", "CCTV"]
+    },
+    {
+      "id": "2",
+      "slug": "commercial-land-ajah",
+      "title": "Prime Commercial Land",
+      "type": "land",
+      "category": "commercial",
+      "price": 85000000,
+      "priceNaira": "₦85M",
+      "location": "Thomas Estate, Ajah, Lagos",
+      "size": "500 sqm",
+      "status": "available",
+      "description": "Prime commercial land located in the fast-developing Thomas Estate. Perfect for retail or office development. Close to major roads and amenities.",
+      "images": ["/images/land1-1.jpg"],
+      "features": ["C of O Available", "Road Access", "Drainage", "Near Main Road"]
+    },
+    {
+      "id": "3",
+      "slug": "3-bedroom-flat-ikoyi",
+      "title": "Modern 3-Bedroom Flat",
+      "type": "building",
+      "category": "residential",
+      "price": 180000000,
+      "priceNaira": "₦180M",
+      "location": "Ikoyi, Lagos",
+      "bedrooms": 3,
+      "bathrooms": 3,
+      "size": "180 sqm",
+      "status": "available",
+      "description": "Beautiful 3-bedroom flat in a secure estate in Ikoyi. Features modern finishes, central AC, and 24/7 power.",
+      "images": ["/images/prop3-1.jpg"],
+      "features": ["24/7 Power", "Security", "Parking", "AC Units"]
+    }
+  ]
+}
