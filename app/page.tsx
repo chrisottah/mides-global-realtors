@@ -55,7 +55,7 @@ export default function Home() {
                 variants={fadeUp}
                 className="text-gray-200 text-lg md:text-xl mt-6 max-w-2xl"
               >
-                Discover premium properties in Lekki, VI, Ikoyi, Ajah, and across Nigeria. 
+                Discover premium properties in Lekki, VI, Ikoyi, Ajah and across Nigeria. 
                 Over 5 years of excellence in real estate.
               </motion.p>
               <motion.div 
@@ -133,7 +133,7 @@ export default function Home() {
                 </p>
                 <p className="text-gray-600 mb-6 leading-relaxed">
                   Whether you're buying, selling, or renting, I provide personalized service 
-                  across Lekki, VI, Ikoyi, Ajah, Ibeju Lekki, and beyond.
+                  across Lekki, VI, Ikoyi, Ajah, Ibeju Lekki and beyond.
                 </p>
                 <Link
                   href="/about"
