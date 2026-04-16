@@ -11,12 +11,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Turbopack configuration for Next.js 16
-  experimental: {
-    turbo: {
-      // Turbopack config if needed
-    },
-  },
+  // REMOVED: experimental.turbo - no longer needed in Next.js 16
+  // Turbopack is now the default, so this flag is obsolete
 }
 
 export default nextConfig
