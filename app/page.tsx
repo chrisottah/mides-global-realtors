@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, easeOut } from "framer-motion";
+import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/layout/Navbar";
@@ -12,7 +13,7 @@ import propertiesData from "@/data/properties.json";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: easeOut } },
 };
 
 const stagger = {
@@ -20,24 +21,47 @@ const stagger = {
 };
 
 export default function Home() {
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const zoomScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+
   const featuredProperties = propertiesData.properties.slice(0, 3);
 
   return (
     <>
       <Navbar />
       <main>
-        {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-          <div className="absolute inset-0 z-0">
+        {/* Hero Section - with Light Sweep Animation */}
+        <section ref={heroRef} className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+          {/* Background Image with Subtle Zoom */}
+          <motion.div 
+            className="absolute inset-0 z-0"
+            style={{ scale: zoomScale }}
+          >
             <Image
               src="/images/hero-bg.jpg"
-              alt="Luxury real estate in Lagos"
+              alt="Lagos skyline - Luxury real estate in Nigeria"
               fill
-              className="object-cover brightness-50"
+              className="object-cover"
               priority
+              quality={90}
+              loading="eager"
+              sizes="100vw"
             />
+            {/* Dark Overlay for text readability */}
+            <div className="absolute inset-0 bg-black/50" />
+          </motion.div>
+
+          {/* Light Sweep Animation */}
+          <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none">
+            <div className="light-sweep" />
           </div>
-          <div className="container mx-auto px-4 md:px-8 relative z-10">
+
+          {/* Hero Content */}
+          <div className="container mx-auto px-4 md:px-8 relative z-20">
             <motion.div
               initial="hidden"
               animate="visible"
@@ -55,7 +79,7 @@ export default function Home() {
                 variants={fadeUp}
                 className="text-gray-200 text-lg md:text-xl mt-6 max-w-2xl"
               >
-                Discover premium properties in Lekki, VI, Ikoyi, Ajah and across Nigeria. 
+                Discover premium properties in Lekki, VI, Ikoyi, Ajah, and across Nigeria. 
                 Over 5 years of excellence in real estate.
               </motion.p>
               <motion.div 
@@ -77,6 +101,22 @@ export default function Home() {
               </motion.div>
             </motion.div>
           </div>
+
+          {/* Scroll Hint */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5, duration: 1 }}
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 hidden md:block"
+          >
+            <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
+              <motion.div
+                animate={{ y: [0, 12, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+                className="w-1 h-2 bg-white rounded-full mt-2"
+              />
+            </div>
+          </motion.div>
         </section>
 
         {/* Featured Properties */}
@@ -133,7 +173,7 @@ export default function Home() {
                 </p>
                 <p className="text-gray-600 mb-6 leading-relaxed">
                   Whether you're buying, selling, or renting, I provide personalized service 
-                  across Lekki, VI, Ikoyi, Ajah, Ibeju Lekki and beyond.
+                  across Lekki, VI, Ikoyi, Ajah, Ibeju Lekki, and beyond.
                 </p>
                 <Link
                   href="/about"
@@ -149,12 +189,17 @@ export default function Home() {
                 transition={{ duration: 0.5 }}
                 className="relative h-96 rounded-2xl overflow-hidden shadow-xl"
               >
-                <Image
-                  src="/images/gloria-realtor.jpg"
-                  alt="Gloria - Realtor at Mides Global"
-                  fill
-                  className="object-cover"
-                />
+                
+                  <Image
+                    src="/images/gloria.jpg"
+                    alt="Gloria - Realtor at Mides Global"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    loading="eager"
+                    priority
+                  />
+                  
               </motion.div>
             </div>
           </div>

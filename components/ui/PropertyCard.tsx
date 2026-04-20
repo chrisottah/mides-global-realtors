@@ -33,6 +33,7 @@ export default function PropertyCard({ property }: { property: Property }) {
             alt={property.title}
             fill
             className="object-cover group-hover:scale-110 transition duration-500"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div className="absolute top-4 right-4 bg-accent text-white px-3 py-1 rounded-full text-sm font-semibold">
             {property.status === "available" ? "Available" : "Sold"}

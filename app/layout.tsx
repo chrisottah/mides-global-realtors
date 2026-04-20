@@ -12,6 +12,14 @@ export const metadata: Metadata = {
   title: "Mides Global Realtors | Your Trusted Real Estate Partner in Lagos",
   description: "Find your dream home or investment property in Lekki, VI, Ikoyi, Ajah, and across Nigeria. Over 5 years of excellence in property sales and rentals.",
   keywords: "real estate lagos, property for sale lekki, rent apartment ajah, mides global realtors",
+  icons: {
+    icon: [
+      { url: "/images/logo.jpg", sizes: "64x64", type: "image/jpeg" },
+    ],
+    apple: [
+      { url: "/images/logo.jpg", sizes: "64x64" },
+    ],
+  },
 };
 
 export default function RootLayout({

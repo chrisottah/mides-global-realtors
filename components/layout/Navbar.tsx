@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Home, Building2, Info, Phone, ChevronRight } from "lucide-react";
 
@@ -25,17 +26,27 @@ export default function Navbar() {
   return (
     <>
       <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-white shadow-lg py-3" : "bg-white/95 backdrop-blur-sm py-5"
+        scrolled ? "bg-white shadow-lg py-2" : "bg-white/95 backdrop-blur-sm py-3"
       }`}>
         <div className="container mx-auto px-4 md:px-8">
           <div className="flex justify-between items-center">
-            {/* Logo */}
-            <Link href="/" className="relative group">
-              <h1 className="text-2xl font-bold">
-                <span className="text-accent">MIDES</span>
-                <span className="text-gray-800"> GLOBAL</span>
-              </h1>
-              <p className="text-xs text-gray-500 tracking-wide">Realtors</p>
+            {/* Logo with Image */}
+            <Link href="/" className="relative group flex items-center gap-2">
+              <Image
+                src="/images/logo.jpg"
+                alt="Mides Global Realtors Logo"
+                width={40}
+                height={40}
+                className="object-contain"
+                priority
+              />
+              <div>
+                <h1 className="text-xl font-bold">
+                  <span className="text-accent">MIDES</span>
+                  <span className="text-gray-800"> GLOBAL</span>
+                </h1>
+                <p className="text-xs text-gray-500 tracking-wide leading-tight">Realtors</p>
+              </div>
               <motion.div 
                 className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"
                 whileHover={{ width: "100%" }}

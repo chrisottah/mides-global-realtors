@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* Custom theme configuration */
-@theme {
+:root {
   --color-accent: #a06c99;
   --color-accent-light: #c49bbc;
   --color-whatsapp: #25D366;
@@ -10,31 +10,66 @@
   
   --animate-fade-up: fadeUp 0.5s ease-out;
   --animate-fade-in: fadeIn 0.3s ease-out;
-  
-  @keyframes fadeUp {
-    0%: { opacity: 0; transform: translateY(20px); }
-    100%: { opacity: 1; transform: translateY(0); }
-  }
-  
-  @keyframes fadeIn {
-    0%: { opacity: 0; }
-    100%: { opacity: 1; }
-  }
+}
+
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 /* Custom utilities */
-@utility text-accent {
+.text-accent {
   color: var(--color-accent);
 }
 
-@utility bg-accent {
+.bg-accent {
   background-color: var(--color-accent);
 }
 
-@utility border-accent {
+.border-accent {
   border-color: var(--color-accent);
 }
 
-@utility ring-accent {
-  ring-color: var(--color-accent);
+.ring-accent {
+  box-shadow: 0 0 0 3px var(--color-accent);
+}
+
+/* Light Sweep Animation */
+.light-sweep {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(255, 255, 255, 0.15) 45%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.15) 55%,
+    transparent 60%,
+    transparent 100%
+  );
+  transform: translateX(-100%) skewX(-15deg);
+  animation: lightSweep 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes lightSweep {
+0% { transform: translateX(-100%) skewX(-15deg); }
+70% { transform: translateX(200%) skewX(-15deg); } /* Sweep takes 70% = 4.2 seconds */
+100% { transform: translateX(200%) skewX(-15deg); } /* Wait 1.8 seconds */
+}
+
+/* Optional: Disable animation on mobile for performance */
+@media (max-width: 768px) {
+  .light-sweep {
+    display: none;
+  }
 }

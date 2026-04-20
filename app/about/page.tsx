@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import Chatbot from "@/components/chatbot/Chatbot";
 import { motion } from "framer-motion";
 import { Shield, Heart, Users, Award, MapPin, Phone, Mail } from "lucide-react";
+import Image from "next/image";
 
 export default function AboutPage() {
   const values = [
@@ -154,8 +155,14 @@ export default function AboutPage() {
                       </div>
                     </div>
                     <div className="flex-1 text-center">
-                      <div className="w-48 h-48 bg-accent/20 rounded-full flex items-center justify-center mx-auto">
-                        <span className="text-6xl">🏠</span>
+                      <div className="w-48 h-48 rounded-full overflow-hidden mx-auto border-4 border-accent shadow-xl bg-accent/10">
+                        <Image
+                          src="/images/gloria.jpg"
+                          alt="Gloria - Founder & CEO of Mides Global Realtors"
+                          width={474}
+                          height={474}
+                          className="object-cover w-full h-full"
+                        />
                       </div>
                       <p className="mt-4 text-gray-600 italic">
                         "Your trusted partner in finding the perfect home"
