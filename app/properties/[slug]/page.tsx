@@ -1,4 +1,4 @@
-import { getPropertyBySlug, getAllProperties, getFormattedPrice, getFormattedSize } from '@/lib/sanity';
+import { getPropertyBySlug, getFormattedPrice, getFormattedSize } from '@/lib/sanity';
 import { urlFor } from '@/lib/sanity/client';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -7,15 +7,9 @@ import Popup from '@/components/ui/Popup';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { MapPin, Bed, Bath, Ruler, ArrowLeft, Check, Home, Building2, Landmark, Phone, Mail } from 'lucide-react';
-import PropertyInteractivity from './PropertyInteractivity';
+import PropertyDetailClient from './PropertyDetailClient';
 
-// Generate static paths for all properties
-export async function generateStaticParams() {
-  const properties = await getAllProperties();
-  return properties.map((property) => ({
-    slug: property.slug.current,
-  }));
-}
+export const dynamic = 'force-dynamic';
 
 function getTypeIcon(type: string) {
   switch (type) {
@@ -54,7 +48,6 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
       <Navbar />
       <main className="pt-28 pb-20">
         <div className="container mx-auto px-4 md:px-8 max-w-6xl">
-          {/* Back Button */}
           <Link 
             href="/properties" 
             className="inline-flex items-center gap-2 text-gray-500 hover:text-accent transition mb-6 text-sm"
@@ -63,26 +56,17 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
             Back to Properties
           </Link>
 
-          {/* Title */}
           <h1 className="text-2xl md:text-3xl font-bold mb-8">{property.title}</h1>
 
-          {/* Main Content Grid - 3 columns (image takes 2, card takes 1) */}
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Left Column - Image Gallery (2/3 width on desktop) */}
+            {/* Left Column - Image Gallery with Slider & Lightbox */}
             <div className="lg:col-span-2">
-              {/* Interactive Image Slider - Pass only serializable data */}
-              <PropertyInteractivity 
+              <PropertyDetailClient 
                 images={property.images || []}
                 title={property.title}
-                location={property.location}
-                status={property.status}
-                priceType={property.priceType}
-                displayPrice={displayPrice}
-                displaySize={displaySize}
-                propertyUrl={propertyUrl}
               />
 
-              {/* Description Section - Below Image */}
+              {/* Description */}
               <div className="mt-8">
                 <h2 className="text-xl font-bold mb-3">Description</h2>
                 <div className="bg-gray-50 rounded-xl p-5">
@@ -92,7 +76,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
                 </div>
               </div>
 
-              {/* Features Section */}
+              {/* Features */}
               {property.features && property.features.length > 0 && (
                 <div className="mt-8">
                   <h2 className="text-xl font-bold mb-3">Key Features</h2>
@@ -187,7 +171,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
                   </div>
                 </div>
 
-                {/* CTA Buttons - Direct inline buttons (avoid passing property object) */}
+                {/* CTA Buttons */}
                 <div className="mt-5 space-y-3">
                   <button 
                     onClick={() => window.open(`https://wa.me/2349033581493?text=${encodeURIComponent(`Hello Gloria! I'm interested in "${property.title}" located at ${property.location}. Please send me more information.`)}`, "_blank")}
