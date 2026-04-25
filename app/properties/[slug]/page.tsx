@@ -7,8 +7,8 @@ import Popup from '@/components/ui/Popup';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { MapPin, Bed, Bath, Ruler, ArrowLeft, Check, Home, Building2, Landmark } from 'lucide-react';
-import PropertyActions from './PropertyActions';
+import { MapPin, Bed, Bath, Ruler, ArrowLeft, Check, Home, Building2, Landmark, Phone, Mail } from 'lucide-react';
+import PropertyInteractivity from './PropertyInteractivity';
 
 // Generate static paths for all properties
 export async function generateStaticParams() {
@@ -18,7 +18,6 @@ export async function generateStaticParams() {
   }));
 }
 
-// Helper function to get icon based on property type
 function getTypeIcon(type: string) {
   switch (type) {
     case 'building':
@@ -30,7 +29,6 @@ function getTypeIcon(type: string) {
   }
 }
 
-// Helper function to get category display
 function getCategoryDisplay(categories: string[]) {
   if (!categories || categories.length === 0) return 'Not specified';
   return categories.map(cat => cat.charAt(0).toUpperCase() + cat.slice(1)).join(', ');
@@ -44,9 +42,6 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
     notFound();
   }
 
-  const mainImage = property.images?.[0];
-  const mainImageUrl = mainImage ? urlFor(mainImage) : '/images/placeholder.jpg';
-  const galleryImages = property.images?.slice(1) || [];
   const displayPrice = getFormattedPrice(property);
   const displaySize = getFormattedSize(property);
   const isPriceOnRequest = property.priceType === 'on_request';
@@ -58,92 +53,49 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
   return (
     <>
       <Navbar />
-      <main className="pt-24 pb-20">
-        <div className="container mx-auto px-4 md:px-8">
+      <main className="pt-28 pb-20">
+        <div className="container mx-auto px-4 md:px-8 max-w-6xl">
           {/* Back Button */}
           <Link 
             href="/properties" 
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-accent transition mb-6 text-sm"
+            className="inline-flex items-center gap-2 text-gray-500 hover:text-accent transition mb-6 text-sm"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Properties
           </Link>
 
-          {/* Title Section */}
-          <div className="mb-6">
-            <h1 className="text-2xl md:text-3xl font-bold mb-2">{property.title}</h1>
-          </div>
+          {/* Title */}
+          <h1 className="text-2xl md:text-3xl font-bold mb-8">{property.title}</h1>
 
-          {/* Main Image */}
-          <div className="relative h-[40vh] md:h-[50vh] rounded-xl overflow-hidden mb-4">
-            <Image
-              src={mainImageUrl}
-              alt={property.title}
-              fill
-              className="object-cover"
-              priority
-            />
-            <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold"
-              style={{
-                backgroundColor: property.status === 'available' ? '#10b981' : '#ef4444',
-                color: 'white'
-              }}
-            >
-              {property.status === 'available' ? 'Available' : property.status === 'sold' ? 'Sold' : 'Pending'}
-            </div>
-          </div>
-
-          {/* Gallery Images */}
-          {galleryImages.length > 0 && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-              {galleryImages.map((image: any, index: number) => (
-                <div key={index} className="relative h-24 md:h-28 rounded-lg overflow-hidden">
-                  <Image
-                    src={urlFor(image)}
-                    alt={`${property.title} - Image ${index + 2}`}
-                    fill
-                    className="object-cover hover:scale-105 transition duration-300"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-
+          {/* Main Content Grid - 3 columns (image takes 2, card takes 1) */}
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Main Content */}
+            {/* Left Column - Image Gallery (2/3 width on desktop) */}
             <div className="lg:col-span-2">
-              {/* Price Section */}
-              <div className="bg-accent/10 rounded-xl p-5 mb-8">
-                <p className="text-gray-600 text-xs mb-1">Price</p>
-                {isPriceOnRequest ? (
-                  <span className="inline-block bg-accent text-white text-sm px-3 py-1 rounded-full">
-                    {displayPrice}
-                  </span>
-                ) : isPriceRange ? (
-                  <div>
-                    <p className="text-2xl font-bold text-accent">{displayPrice}</p>
-                    <p className="text-xs text-gray-500 mt-1">Price Range (negotiable)</p>
-                  </div>
-                ) : (
-                  <p className="text-2xl font-bold text-accent">{displayPrice}</p>
-                )}
-              </div>
+              {/* Interactive Image Slider */}
+              <PropertyInteractivity 
+                property={property}
+                displayPrice={displayPrice}
+                displaySize={displaySize}
+                propertyUrl={propertyUrl}
+              />
 
-              {/* Description */}
-              <div className="mb-8">
+              {/* Description Section - Below Image */}
+              <div className="mt-8">
                 <h2 className="text-xl font-bold mb-3">Description</h2>
-                <p className="text-gray-700 leading-relaxed whitespace-pre-wrap text-sm">
-                  {property.description}
-                </p>
+                <div className="bg-gray-50 rounded-xl p-5">
+                  <p className="text-gray-700 leading-relaxed whitespace-pre-wrap text-sm">
+                    {property.description}
+                  </p>
+                </div>
               </div>
 
-              {/* Features */}
+              {/* Features Section */}
               {property.features && property.features.length > 0 && (
-                <div className="mb-8">
+                <div className="mt-8">
                   <h2 className="text-xl font-bold mb-3">Key Features</h2>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 gap-3">
                     {property.features.map((feature: string, index: number) => (
-                      <div key={index} className="flex items-center gap-2 text-gray-700 text-sm">
+                      <div key={index} className="flex items-center gap-2 text-gray-700 text-sm bg-gray-50 rounded-lg px-3 py-2">
                         <Check className="w-3.5 h-3.5 text-accent flex-shrink-0" />
                         <span>{feature}</span>
                       </div>
@@ -153,36 +105,37 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
               )}
             </div>
 
-            {/* Sidebar */}
+            {/* Right Column - Property Details Card */}
             <div className="lg:col-span-1">
               <div className="bg-white rounded-xl shadow-lg p-5 sticky top-24">
-                <h3 className="text-lg font-bold mb-4">Property Details</h3>
+                <h3 className="text-lg font-bold mb-4 pb-2 border-b">Property Details</h3>
+                
                 <div className="space-y-3 text-sm">
-                  <div className="flex justify-between pb-2 border-b">
+                  <div className="flex justify-between">
                     <span className="text-gray-500">Type</span>
                     <span className="font-semibold capitalize flex items-center gap-1">
                       {getTypeIcon(property.type)}
-                      {property.type === 'building' ? 'Building/House' : 'Land/Plot'}
+                      {property.type === 'building' ? 'Building' : 'Land'}
                     </span>
                   </div>
                   
-                  <div className="flex justify-between pb-2 border-b">
+                  <div className="flex justify-between">
                     <span className="text-gray-500">Category</span>
-                    <span className="font-semibold text-right">
+                    <span className="font-semibold text-right text-sm">
                       {getCategoryDisplay(property.category)}
                     </span>
                   </div>
                   
-                  <div className="flex justify-between pb-2 border-b">
+                  <div className="flex justify-between">
                     <span className="text-gray-500">Location</span>
-                    <span className="font-semibold flex items-center gap-1">
+                    <span className="font-semibold text-right text-sm flex items-center gap-1">
                       <MapPin className="w-3 h-3" />
                       {property.location}
                     </span>
                   </div>
                   
                   {property.type === 'building' && property.bedrooms && (
-                    <div className="flex justify-between pb-2 border-b">
+                    <div className="flex justify-between">
                       <span className="text-gray-500">Bedrooms</span>
                       <span className="font-semibold flex items-center gap-1">
                         <Bed className="w-3 h-3" />
@@ -192,7 +145,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
                   )}
                   
                   {property.type === 'building' && property.bathrooms && (
-                    <div className="flex justify-between pb-2 border-b">
+                    <div className="flex justify-between">
                       <span className="text-gray-500">Bathrooms</span>
                       <span className="font-semibold flex items-center gap-1">
                         <Bath className="w-3 h-3" />
@@ -202,10 +155,8 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
                   )}
                   
                   {displaySize && (
-                    <div className="flex justify-between pb-2 border-b">
-                      <span className="text-gray-500">
-                        {property.type === 'land' ? 'Land Size' : 'Size'}
-                      </span>
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">Size</span>
                       <span className="font-semibold flex items-center gap-1">
                         <Ruler className="w-3 h-3" />
                         {displaySize}
@@ -214,16 +165,45 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
                   )}
                 </div>
 
-                {/* Use Client Component for interactive buttons */}
-                <PropertyActions 
-                  property={property}
-                  displayPrice={displayPrice}
-                  displaySize={displaySize}
-                  propertyUrl={propertyUrl}
-                />
+                {/* Price Section */}
+                <div className="mt-4 pt-3 border-t">
+                  <div className="bg-accent/10 rounded-lg p-3 text-center">
+                    <p className="text-xs text-gray-500 mb-1">Price</p>
+                    {isPriceOnRequest ? (
+                      <span className="inline-block bg-accent text-white text-sm px-3 py-1 rounded-full">
+                        {displayPrice}
+                      </span>
+                    ) : isPriceRange ? (
+                      <div>
+                        <p className="text-lg font-bold text-accent">{displayPrice}</p>
+                        <p className="text-xs text-gray-500">Price Range</p>
+                      </div>
+                    ) : (
+                      <p className="text-xl font-bold text-accent">{displayPrice}</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* CTA Buttons */}
+                <div className="mt-5 space-y-3">
+                  <button 
+                    onClick={() => window.open(`https://wa.me/2349033581493?text=${encodeURIComponent(`Hello Gloria! I'm interested in "${property.title}" located at ${property.location}. Please send me more information.`)}`, "_blank")}
+                    className="w-full bg-[#25D366] text-white py-2.5 rounded-full font-semibold text-sm hover:bg-opacity-90 transition flex items-center justify-center gap-2"
+                  >
+                    <Phone className="w-4 h-4" />
+                    Inquire on WhatsApp
+                  </button>
+                  <button 
+                    onClick={() => window.location.href = `/contact`}
+                    className="w-full bg-accent text-white py-2.5 rounded-full font-semibold text-sm hover:bg-opacity-85 transition flex items-center justify-center gap-2"
+                  >
+                    <Mail className="w-4 h-4" />
+                    Request a Viewing
+                  </button>
+                </div>
 
                 <p className="text-xs text-gray-400 text-center mt-4">
-                  Contact Gloria directly for more details or to schedule a viewing
+                  Contact Gloria directly
                 </p>
               </div>
             </div>
