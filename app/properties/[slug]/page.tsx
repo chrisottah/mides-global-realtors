@@ -5,8 +5,9 @@ import Chatbot from "@/components/chatbot/Chatbot";
 import Popup from "@/components/ui/Popup";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MapPin, Bed, Bath, Ruler, ArrowLeft, Check, Home, Building2, Landmark, Phone, Mail } from "lucide-react";
+import { MapPin, Bed, Bath, Ruler, ArrowLeft, Check, Home, Building2, Landmark } from "lucide-react";
 import PropertyDetailClient from "./PropertyDetailClient";
+import PropertyButtons from "./PropertyButtons";
 
 export const dynamic = "force-dynamic";
 
@@ -60,10 +61,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Left Column - Image Slider */}
             <div className="lg:col-span-2">
-              <PropertyDetailClient
-                rawImages={property.images || []}
-                title={property.title}
-              />
+              <PropertyDetailClient rawImages={property.images || []} title={property.title} />
 
               {/* Description */}
               <div className="mt-8">
@@ -94,7 +92,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
               )}
             </div>
 
-            {/* Right Column – Property Details Card with Buttons */}
+            {/* Right Column – Property Details Card */}
             <div className="lg:col-span-1">
               <div className="bg-white rounded-xl shadow-lg p-5 sticky top-24">
                 <h3 className="text-lg font-bold mb-4 pb-2 border-b">Property Details</h3>
@@ -166,30 +164,8 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
                   </div>
                 </div>
 
-                {/* Buttons inside the card */}
-                <div className="mt-5 space-y-3">
-                  <button
-                    onClick={() =>
-                      window.open(
-                        `https://wa.me/2349033581493?text=${encodeURIComponent(
-                          `Hello Gloria! I'm interested in "${property.title}" located at ${property.location}. Please send me more information.`
-                        )}`,
-                        "_blank"
-                      )
-                    }
-                    className="w-full bg-[#25D366] text-white py-2.5 rounded-full font-semibold text-sm hover:bg-opacity-90 transition transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
-                  >
-                    <Phone className="w-4 h-4" />
-                    Inquire on WhatsApp
-                  </button>
-                  <button
-                    onClick={() => (window.location.href = "/contact")}
-                    className="w-full bg-accent text-white py-2.5 rounded-full font-semibold text-sm hover:bg-opacity-85 transition transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
-                  >
-                    <Mail className="w-4 h-4" />
-                    Request a Viewing
-                  </button>
-                </div>
+                {/* ✅ Buttons component (Client Component) */}
+                <PropertyButtons title={property.title} location={property.location} />
 
                 <p className="text-xs text-gray-400 text-center mt-4">Contact Gloria directly</p>
               </div>
