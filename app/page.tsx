@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useScroll, useTransform, easeOut } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/layout/Navbar";
@@ -9,11 +9,12 @@ import Footer from "@/components/layout/Footer";
 import PropertyCard from "@/components/ui/PropertyCard";
 import Popup from "@/components/ui/Popup";
 import Chatbot from "@/components/chatbot/Chatbot";
-import propertiesData from "@/data/properties.json";
+import { getRecentProperties } from "@/lib/sanity";
+import type { Property } from "@/lib/sanity";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: easeOut } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
 const stagger = {
@@ -22,13 +23,28 @@ const stagger = {
 
 export default function Home() {
   const heroRef = useRef(null);
+  const [recentProperties, setRecentProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(true);
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
   });
   const zoomScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
 
-  const featuredProperties = propertiesData.properties.slice(0, 3);
+  // Fetch recent properties from Sanity
+  useEffect(() => {
+    async function fetchProperties() {
+      try {
+        const properties = await getRecentProperties();
+        setRecentProperties(properties);
+      } catch (error) {
+        console.error("Error fetching properties:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProperties();
+  }, []);
 
   return (
     <>
@@ -119,7 +135,7 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* Featured Properties */}
+        {/* Recent Properties - From Sanity */}
         <section className="py-20 bg-gray-50">
           <div className="container mx-auto px-4 md:px-8">
             <motion.div
@@ -130,26 +146,51 @@ export default function Home() {
               className="text-center mb-12"
             >
               <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-bold">
-                Featured <span className="text-accent">Properties</span>
+                Recent <span className="text-accent">Properties</span>
               </motion.h2>
               <motion.p variants={fadeUp} className="text-gray-600 mt-4">
-                Handpicked premium properties just for you
+                Check out our latest listings
               </motion.p>
             </motion.div>
 
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={stagger}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-              {featuredProperties.map((property) => (
-                <motion.div key={property.id} variants={fadeUp}>
-                  <PropertyCard property={property} />
+            {loading ? (
+              <div className="flex justify-center items-center h-64">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent"></div>
+              </div>
+            ) : recentProperties.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-gray-500">No properties available yet. Check back soon!</p>
+              </div>
+            ) : (
+              <>
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={stagger}
+                  className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+                >
+                  {recentProperties.map((property, index) => (
+                    <motion.div key={property._id} variants={fadeUp}>
+                      <PropertyCard property={property} />
+                    </motion.div>
+                  ))}
                 </motion.div>
-              ))}
-            </motion.div>
+
+                {/* See More Button */}
+                <div className="text-center mt-12">
+                  <Link
+                    href="/properties"
+                    className="inline-flex items-center gap-2 bg-accent text-white px-8 py-3 rounded-full font-semibold hover:bg-opacity-85 transition transform hover:scale-105"
+                  >
+                    See More Properties
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                </div>
+              </>
+            )}
           </div>
         </section>
 
@@ -189,17 +230,15 @@ export default function Home() {
                 transition={{ duration: 0.5 }}
                 className="relative h-96 rounded-2xl overflow-hidden shadow-xl"
               >
-                
-                  <Image
-                    src="/images/gloria.jpg"
-                    alt="Gloria - Realtor at Mides Global"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    loading="eager"
-                    priority
-                  />
-                  
+                <Image
+                  src="/images/gloria.jpg"
+                  alt="Gloria - Realtor at Mides Global"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  loading="eager"
+                  priority
+                />
               </motion.div>
             </div>
           </div>

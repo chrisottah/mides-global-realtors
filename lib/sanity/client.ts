@@ -1,5 +1,5 @@
 import { createClient } from '@sanity/client';
-import imageUrlBuilder from '@sanity/image-url';
+import { createImageUrlBuilder } from '@sanity/image-url';
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'guruykmg';
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production';
@@ -12,9 +12,10 @@ export const sanityClient = createClient({
   useCdn: process.env.NODE_ENV === 'production',
 });
 
-const builder = imageUrlBuilder(sanityClient);
+// Fixed: Using named export instead of default export
+export const imageBuilder = createImageUrlBuilder({ projectId, dataset });
 
 export function urlFor(source: any) {
   if (!source || !source.asset) return '/images/placeholder.jpg';
-  return builder.image(source).url();
+  return imageBuilder.image(source).url();
 }
