@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, type Variants } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,7 +12,7 @@ import Chatbot from "@/components/chatbot/Chatbot";
 import { getRecentProperties } from "@/lib/sanity";
 import type { Property } from "@/lib/sanity";
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
