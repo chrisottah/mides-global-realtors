@@ -4,7 +4,6 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Chatbot from '@/components/chatbot/Chatbot';
 import Popup from '@/components/ui/Popup';
-import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { MapPin, Bed, Bath, Ruler, ArrowLeft, Check, Home, Building2, Landmark, Phone, Mail } from 'lucide-react';
@@ -71,9 +70,13 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Left Column - Image Gallery (2/3 width on desktop) */}
             <div className="lg:col-span-2">
-              {/* Interactive Image Slider */}
+              {/* Interactive Image Slider - Pass only serializable data */}
               <PropertyInteractivity 
-                property={property}
+                images={property.images || []}
+                title={property.title}
+                location={property.location}
+                status={property.status}
+                priceType={property.priceType}
                 displayPrice={displayPrice}
                 displaySize={displaySize}
                 propertyUrl={propertyUrl}
@@ -184,7 +187,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
                   </div>
                 </div>
 
-                {/* CTA Buttons */}
+                {/* CTA Buttons - Direct inline buttons (avoid passing property object) */}
                 <div className="mt-5 space-y-3">
                   <button 
                     onClick={() => window.open(`https://wa.me/2349033581493?text=${encodeURIComponent(`Hello Gloria! I'm interested in "${property.title}" located at ${property.location}. Please send me more information.`)}`, "_blank")}

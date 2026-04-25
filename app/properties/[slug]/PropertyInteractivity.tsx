@@ -1,24 +1,55 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Phone, Mail } from "lucide-react";
 import { urlFor } from "@/lib/sanity/client";
 
+interface PropertyData {
+  images: any[];
+  title: string;
+  location: string;
+  status: string;
+  priceType: string;
+}
+
 export default function PropertyInteractivity({ 
-  property, 
+  images, 
+  title, 
+  location, 
+  status,
+  priceType,
   displayPrice, 
   displaySize, 
   propertyUrl 
 }: { 
-  property: any;
+  images: any[];
+  title: string;
+  location: string;
+  status: string;
+  priceType: string;
   displayPrice: string;
   displaySize: string | null;
   propertyUrl: string;
 }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const allImages = property.images || [];
-  const currentImageUrl = allImages[currentImageIndex] ? urlFor(allImages[currentImageIndex]) : '/images/placeholder.jpg';
+  const [allImages, setAllImages] = useState<any[]>([]);
+  const [currentImageUrl, setCurrentImageUrl] = useState('/images/placeholder.jpg');
+
+  useEffect(() => {
+    if (images && images.length > 0) {
+      setAllImages(images);
+      if (images[0]) {
+        setCurrentImageUrl(urlFor(images[0]));
+      }
+    }
+  }, [images]);
+
+  useEffect(() => {
+    if (allImages.length > 0 && allImages[currentImageIndex]) {
+      setCurrentImageUrl(urlFor(allImages[currentImageIndex]));
+    }
+  }, [currentImageIndex, allImages]);
 
   const nextImage = () => {
     if (allImages.length > 1) {
@@ -32,19 +63,19 @@ export default function PropertyInteractivity({
     }
   };
 
-  const whatsappMessage = `Hello Gloria! I'm interested in "${property.title}" located at ${property.location}.
+  const whatsappMessage = `Hello Gloria! I'm interested in "${title}" located at ${location}.
 
 📍 Property Link: ${propertyUrl}
 
 Please send me more information about:
 - Price: ${displayPrice}
 - Size: ${displaySize || 'Not specified'}
-- Availability: ${property.status}
+- Availability: ${status}
 
 Thank you!`;
 
-  const isPriceOnRequest = property.priceType === 'on_request';
-  const isPriceRange = property.priceType === 'range';
+  const isPriceOnRequest = priceType === 'on_request';
+  const isPriceRange = priceType === 'range';
 
   return (
     <>
@@ -52,7 +83,7 @@ Thank you!`;
       <div className="relative bg-gray-100 rounded-2xl overflow-hidden" style={{ aspectRatio: '4/3' }}>
         <Image
           src={currentImageUrl}
-          alt={`${property.title}`}
+          alt={title}
           fill
           className="object-cover"
           priority
