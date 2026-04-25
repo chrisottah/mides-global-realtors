@@ -1,15 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { urlFor } from "@/lib/sanity/client";
 
-export default function PropertyDetailClient({ imageUrls, title }: { imageUrls: string[]; title: string }) {
+export default function PropertyDetailClient({ rawImages, title }: { rawImages: any[]; title: string }) {
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
-  const allImages = imageUrls || [];
+  useEffect(() => {
+    if (rawImages && rawImages.length > 0) {
+      const urls = rawImages.map((img) => urlFor(img));
+      setImageUrls(urls);
+    }
+  }, [rawImages]);
+
+  const allImages = imageUrls;
   const currentImageUrl = allImages[currentImageIndex] || '/images/placeholder.jpg';
 
   const nextImage = () => {
@@ -53,7 +62,7 @@ export default function PropertyDetailClient({ imageUrls, title }: { imageUrls: 
 
   return (
     <>
-      {/* Main Image Slider - No Thumbnails */}
+      {/* Main Image Slider */}
       <div className="relative bg-gray-100 rounded-2xl overflow-hidden cursor-pointer" style={{ aspectRatio: '4/3' }} onClick={openLightbox}>
         <Image
           src={currentImageUrl}

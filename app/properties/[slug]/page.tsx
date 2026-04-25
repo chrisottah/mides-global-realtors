@@ -9,7 +9,7 @@ import { notFound } from 'next/navigation';
 import { MapPin, Bed, Bath, Ruler, ArrowLeft, Check, Home, Building2, Landmark, Phone, Mail } from 'lucide-react';
 import PropertyDetailClient from './PropertyDetailClient';
 
-export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic';   // Prevent static generation
 
 function getTypeIcon(type: string) {
   switch (type) {
@@ -43,8 +43,8 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://midesglobalrealtors.com';
   const propertyUrl = `${baseUrl}/properties/${property.slug.current}`;
 
-  // Process images to URLs BEFORE passing to client component
-  const imageUrls = (property.images || []).map((img: any) => urlFor(img));
+  // Pass ONLY the raw image objects (they will be processed client-side)
+  const rawImages = property.images || [];
 
   return (
     <>
@@ -62,14 +62,12 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
           <h1 className="text-2xl md:text-3xl font-bold mb-8">{property.title}</h1>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Left Column - Image Gallery with Slider & Lightbox */}
             <div className="lg:col-span-2">
               <PropertyDetailClient 
-                imageUrls={imageUrls}
+                rawImages={rawImages}
                 title={property.title}
               />
 
-              {/* Description */}
               <div className="mt-8">
                 <h2 className="text-xl font-bold mb-3">Description</h2>
                 <div className="bg-gray-50 rounded-xl p-5">
@@ -79,7 +77,6 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
                 </div>
               </div>
 
-              {/* Features */}
               {property.features && property.features.length > 0 && (
                 <div className="mt-8">
                   <h2 className="text-xl font-bold mb-3">Key Features</h2>
@@ -95,7 +92,6 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
               )}
             </div>
 
-            {/* Right Column - Property Details Card */}
             <div className="lg:col-span-1">
               <div className="bg-white rounded-xl shadow-lg p-5 sticky top-24">
                 <h3 className="text-lg font-bold mb-4 pb-2 border-b">Property Details</h3>
@@ -155,7 +151,6 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
                   )}
                 </div>
 
-                {/* Price Section */}
                 <div className="mt-4 pt-3 border-t">
                   <div className="bg-accent/10 rounded-lg p-3 text-center">
                     <p className="text-xs text-gray-500 mb-1">Price</p>
@@ -174,7 +169,6 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
                   </div>
                 </div>
 
-                {/* CTA Buttons */}
                 <div className="mt-5 space-y-3">
                   <button 
                     onClick={() => window.open(`https://wa.me/2349033581493?text=${encodeURIComponent(`Hello Gloria! I'm interested in "${property.title}" located at ${property.location}. Please send me more information.`)}`, "_blank")}
