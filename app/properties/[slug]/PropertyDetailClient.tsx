@@ -2,34 +2,21 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, X, Phone, Mail } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { urlFor } from "@/lib/sanity/client";
 
 export default function PropertyDetailClient({
   rawImages,
   title,
-  location,
-  status,
-  priceType,
-  displayPrice,
-  displaySize,
-  propertyUrl,
 }: {
   rawImages: any[];
   title: string;
-  location: string;
-  status: string;
-  priceType: string;
-  displayPrice: string;
-  displaySize: string | null;
-  propertyUrl: string;
 }) {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
-  // Convert Sanity image objects to URLs on the client side
   useEffect(() => {
     if (rawImages && rawImages.length > 0) {
       const urls = rawImages.map((img) => urlFor(img));
@@ -69,20 +56,6 @@ export default function PropertyDetailClient({
     }
   };
 
-  const whatsappMessage = `Hello Gloria! I'm interested in "${title}" located at ${location}.
-
-📍 Property Link: ${propertyUrl}
-
-Please send me more information about:
-- Price: ${displayPrice}
-- Size: ${displaySize || "Not specified"}
-- Availability: ${status}
-
-Thank you!`;
-
-  const isPriceOnRequest = priceType === "on_request";
-  const isPriceRange = priceType === "range";
-
   if (allImages.length === 0) {
     return (
       <div className="relative bg-gray-100 rounded-2xl overflow-hidden" style={{ aspectRatio: "4/3" }}>
@@ -107,7 +80,7 @@ Thank you!`;
                 e.stopPropagation();
                 prevImage();
               }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition w-10 h-10 flex items-center justify-center"
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition w-10 h-10 flex items-center justify-center cursor-pointer"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -116,7 +89,7 @@ Thank you!`;
                 e.stopPropagation();
                 nextImage();
               }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition w-10 h-10 flex items-center justify-center"
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition w-10 h-10 flex items-center justify-center cursor-pointer"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -127,26 +100,6 @@ Thank you!`;
         )}
       </div>
 
-      {/* Action Buttons (WhatsApp, Request Viewing) */}
-      <div className="mt-5 space-y-3">
-        <button
-          onClick={() =>
-            window.open(`https://wa.me/2349033581493?text=${encodeURIComponent(whatsappMessage)}`, "_blank")
-          }
-          className="w-full bg-[#25D366] text-white py-2.5 rounded-full font-semibold text-sm hover:bg-opacity-90 transition flex items-center justify-center gap-2"
-        >
-          <Phone className="w-4 h-4" />
-          Inquire on WhatsApp
-        </button>
-        <button
-          onClick={() => (window.location.href = "/contact")}
-          className="w-full bg-accent text-white py-2.5 rounded-full font-semibold text-sm hover:bg-opacity-85 transition flex items-center justify-center gap-2"
-        >
-          <Mail className="w-4 h-4" />
-          Request a Viewing
-        </button>
-      </div>
-
       {/* Lightbox Modal */}
       {lightboxOpen && (
         <div
@@ -155,7 +108,7 @@ Thank you!`;
         >
           <button
             onClick={() => setLightboxOpen(false)}
-            className="absolute top-5 right-5 text-white hover:text-gray-300 transition z-10"
+            className="absolute top-5 right-5 text-white hover:text-gray-300 transition z-10 cursor-pointer"
           >
             <X className="w-8 h-8" />
           </button>
@@ -167,7 +120,7 @@ Thank you!`;
                   e.stopPropagation();
                   prevLightboxImage();
                 }}
-                className="absolute left-5 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition"
+                className="absolute left-5 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition cursor-pointer"
               >
                 <ChevronLeft className="w-6 h-6" />
               </button>
@@ -176,7 +129,7 @@ Thank you!`;
                   e.stopPropagation();
                   nextLightboxImage();
                 }}
-                className="absolute right-5 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition"
+                className="absolute right-5 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition cursor-pointer"
               >
                 <ChevronRight className="w-6 h-6" />
               </button>
