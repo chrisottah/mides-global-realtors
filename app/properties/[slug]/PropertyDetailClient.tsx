@@ -3,15 +3,14 @@
 import { useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import { urlFor } from "@/lib/sanity/client";
 
-export default function PropertyDetailClient({ images, title }: { images: any[]; title: string }) {
+export default function PropertyDetailClient({ imageUrls, title }: { imageUrls: string[]; title: string }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
-  const allImages = images || [];
-  const currentImageUrl = allImages[currentImageIndex] ? urlFor(allImages[currentImageIndex]) : '/images/placeholder.jpg';
+  const allImages = imageUrls || [];
+  const currentImageUrl = allImages[currentImageIndex] || '/images/placeholder.jpg';
 
   const nextImage = () => {
     if (allImages.length > 1) {
@@ -42,9 +41,19 @@ export default function PropertyDetailClient({ images, title }: { images: any[];
     }
   };
 
+  if (allImages.length === 0) {
+    return (
+      <div className="relative bg-gray-100 rounded-2xl overflow-hidden" style={{ aspectRatio: '4/3' }}>
+        <div className="flex items-center justify-center h-full text-gray-400">
+          No images available
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
-      {/* Main Image Slider */}
+      {/* Main Image Slider - No Thumbnails */}
       <div className="relative bg-gray-100 rounded-2xl overflow-hidden cursor-pointer" style={{ aspectRatio: '4/3' }} onClick={openLightbox}>
         <Image
           src={currentImageUrl}
@@ -75,28 +84,6 @@ export default function PropertyDetailClient({ images, title }: { images: any[];
         )}
       </div>
 
-      {/* Thumbnails */}
-      {allImages.length > 1 && (
-        <div className="flex gap-2 mt-3 overflow-x-auto pb-2">
-          {allImages.map((image, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentImageIndex(index)}
-              className={`relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 ${
-                currentImageIndex === index ? 'ring-2 ring-accent' : 'opacity-70 hover:opacity-100'
-              }`}
-            >
-              <Image
-                src={urlFor(image)}
-                alt={`Thumbnail ${index + 1}`}
-                fill
-                className="object-cover"
-              />
-            </button>
-          ))}
-        </div>
-      )}
-
       {/* Lightbox Modal */}
       {lightboxOpen && (
         <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center" onClick={() => setLightboxOpen(false)}>
@@ -126,7 +113,7 @@ export default function PropertyDetailClient({ images, title }: { images: any[];
           
           <div className="relative w-[90vw] h-[85vh]" onClick={(e) => e.stopPropagation()}>
             <Image
-              src={urlFor(allImages[lightboxIndex])}
+              src={allImages[lightboxIndex]}
               alt={title}
               fill
               className="object-contain"

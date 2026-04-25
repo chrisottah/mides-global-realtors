@@ -43,6 +43,9 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://midesglobalrealtors.com';
   const propertyUrl = `${baseUrl}/properties/${property.slug.current}`;
 
+  // Process images to URLs BEFORE passing to client component
+  const imageUrls = (property.images || []).map((img: any) => urlFor(img));
+
   return (
     <>
       <Navbar />
@@ -62,7 +65,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
             {/* Left Column - Image Gallery with Slider & Lightbox */}
             <div className="lg:col-span-2">
               <PropertyDetailClient 
-                images={property.images || []}
+                imageUrls={imageUrls}
                 title={property.title}
               />
 
