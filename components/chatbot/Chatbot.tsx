@@ -68,7 +68,7 @@ export default function Chatbot() {
 
   const handleWhatsAppRedirect = (message?: string) => {
     const whatsappNumber = "2349033581493";
-    const text = message || "Hello Gloria! I need assistance with a property from Mides Global Realtors.";
+    const text = message || "Hello Anu! I need assistance with a property from Mides Global Realtors.";
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, "_blank");
   };
 
@@ -168,7 +168,7 @@ export default function Chatbot() {
                             className="mt-2 flex items-center gap-2 text-xs bg-[#25D366] text-white px-3 py-1.5 rounded-full hover:bg-opacity-90 transition"
                           >
                             <Phone className="w-3 h-3" />
-                            Chat with Gloria on WhatsApp
+                            Chat with Anu on WhatsApp
                           </button>
                         )}
                         <p className="text-[10px] opacity-60 mt-1">

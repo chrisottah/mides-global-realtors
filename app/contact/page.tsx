@@ -16,7 +16,7 @@ export default function ContactPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // For now, just open WhatsApp with the message
-    const whatsappMessage = `Hello Gloria! My name is ${formData.name}. ${formData.message}. My phone is ${formData.phone}`;
+    const whatsappMessage = `Hello Anu! My name is ${formData.name}. ${formData.message}. My phone is ${formData.phone}`;
     window.open(`https://wa.me/2349033581493?text=${encodeURIComponent(whatsappMessage)}`, "_blank");
   };
 
@@ -30,7 +30,7 @@ export default function ContactPage() {
               Contact <span className="text-accent">Us</span>
             </h1>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              Get in touch with Gloria for all your real estate needs
+              Get in touch with Anu for all your real estate needs
             </p>
           </div>
 

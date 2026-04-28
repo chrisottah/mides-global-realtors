@@ -63,7 +63,7 @@ export default function PropertyInteractivity({
     }
   };
 
-  const whatsappMessage = `Hello Gloria! I'm interested in "${title}" located at ${location}.
+  const whatsappMessage = `Hello Anu! I'm interested in "${title}" located at ${location}.
 
 📍 Property Link: ${propertyUrl}
 

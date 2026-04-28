@@ -13,7 +13,7 @@ export default function PropertyActions({
   displaySize: string | null;
   propertyUrl: string;
 }) {
-  const whatsappMessage = `Hello Gloria! I'm interested in "${property.title}" located at ${property.location}.
+  const whatsappMessage = `Hello Anu! I'm interested in "${property.title}" located at ${property.location}.
 
 📍 Property Link: ${propertyUrl}
 

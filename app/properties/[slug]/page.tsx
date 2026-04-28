@@ -167,7 +167,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
                 {/* ✅ Buttons component (Client Component) */}
                 <PropertyButtons title={property.title} location={property.location} />
 
-                <p className="text-xs text-gray-400 text-center mt-4">Contact Gloria directly</p>
+                <p className="text-xs text-gray-400 text-center mt-4">Contact Anu directly</p>
               </div>
             </div>
           </div>

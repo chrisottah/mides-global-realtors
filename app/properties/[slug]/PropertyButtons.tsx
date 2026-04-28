@@ -4,7 +4,7 @@ import { Phone, Mail } from "lucide-react";
 
 export default function PropertyButtons({ title, location }: { title: string; location: string }) {
   const handleWhatsApp = () => {
-    const message = `Hello Gloria! I'm interested in "${title}" located at ${location}. Please send me more information.`;
+    const message = `Hello Anu! I'm interested in "${title}" located at ${location}. Please send me more information.`;
     window.open(`https://wa.me/2349033581493?text=${encodeURIComponent(message)}`, "_blank");
   };
 

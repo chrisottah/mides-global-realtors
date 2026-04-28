@@ -231,7 +231,7 @@ export default function Home() {
                 className="relative h-96 rounded-2xl overflow-hidden shadow-xl"
               >
                 <Image
-                  src="/images/gloria.jpg"
+                  src="/images/anu.jpg"
                   alt="Anu - Realtor at Mides Global"
                   fill
                   className="object-cover"
