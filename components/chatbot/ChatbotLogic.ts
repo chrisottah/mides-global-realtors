@@ -68,18 +68,18 @@ export function getChatbotResponse(userInput: string): { response: string; needs
   if (hasPropertyKeyword || hasLocationKeyword || hasPriceKeyword) {
     if (hasLocationKeyword) {
       return {
-        response: `Yes! We have properties available in ${locationKeywords.find(l => normalizedInput.includes(l)) || "Lagos"}. For specific listings, pricing, and to schedule viewings, please click the WhatsApp button below to chat with Gloria directly! She'll send you current available properties in that area. 🏠`,
+        response: `Yes! We have properties available in ${locationKeywords.find(l => normalizedInput.includes(l)) || "Lagos"}. For specific listings, pricing, and to schedule viewings, please click the WhatsApp button below to chat with Anu directly! She'll send you current available properties in that area. 🏠`,
         needsWhatsApp: true
       };
     }
     if (hasPriceKeyword) {
       return {
-        response: "Our properties range from ₦50M for lands to ₦500M+ for luxury homes. For accurate pricing on specific properties, please click the WhatsApp button below and Gloria will send you detailed information! 💰",
+        response: "Our properties range from ₦50M for lands to ₦500M+ for luxury homes. For accurate pricing on specific properties, please click the WhatsApp button below and Anu will send you detailed information! 💰",
         needsWhatsApp: true
       };
     }
     return {
-      response: "I'd love to help you find properties! For the most current listings and personalized recommendations, please click the WhatsApp button below to chat with Gloria directly. She'll send you properties matching your criteria! 🏠",
+      response: "I'd love to help you find properties! For the most current listings and personalized recommendations, please click the WhatsApp button below to chat with Anu directly. She'll send you properties matching your criteria! 🏠",
       needsWhatsApp: true
     };
   }

@@ -112,7 +112,7 @@ export default function Home() {
                   href="/contact"
                   className="border-2 border-white text-white px-8 py-3 rounded-full text-center font-semibold hover:bg-white hover:text-accent transition"
                 >
-                  Contact Gloria
+                  Contact Anu
                 </Link>
               </motion.div>
             </motion.div>
@@ -205,7 +205,7 @@ export default function Home() {
                 variants={fadeUp}
               >
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                  Meet <span className="text-accent">Gloria</span>
+                  Meet <span className="text-accent">Anu</span>
                   <br />Your Trusted Realtor
                 </h2>
                 <p className="text-gray-600 mb-4 leading-relaxed">
@@ -232,7 +232,7 @@ export default function Home() {
               >
                 <Image
                   src="/images/gloria.jpg"
-                  alt="Gloria - Realtor at Mides Global"
+                  alt="Anu - Realtor at Mides Global"
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

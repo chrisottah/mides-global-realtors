@@ -44,7 +44,7 @@ export default function Popup() {
   };
 
   const handleWhatsApp = () => {
-    window.open("https://wa.me/2349033581493?text=Hi Gloria! I saw your free consultation offer and I'm interested!", "_blank");
+    window.open("https://wa.me/2349033581493?text=Hi Anu! I saw your free consultation offer and I'm interested!", "_blank");
     setIsOpen(false);
   };
 
@@ -89,7 +89,7 @@ export default function Popup() {
                 </h3>
                 
                 <p className="text-gray-600 mb-4">
-                  Get a FREE consultation with Gloria and discover your dream property today!
+                  Get a FREE consultation with Anu and discover your dream property today!
                 </p>
                 
                 <div className="bg-accent/5 rounded-lg p-3 mb-5">

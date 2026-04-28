@@ -123,7 +123,7 @@ export default function AboutPage() {
                 </p>
               </motion.div>
 
-              {/* Meet Gloria */}
+              {/* Meet Anu */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -133,10 +133,10 @@ export default function AboutPage() {
                 <div className="bg-gradient-to-r from-accent/10 to-accent/5 rounded-2xl p-8 md:p-12">
                   <div className="flex flex-col md:flex-row gap-8 items-center">
                     <div className="flex-1">
-                      <h2 className="text-3xl font-bold mb-4">Meet Gloria</h2>
+                      <h2 className="text-3xl font-bold mb-4">Meet Anu</h2>
                       <p className="text-xl text-accent font-semibold mb-3">Founder & CEO</p>
                       <p className="text-gray-700 leading-relaxed mb-4">
-                        With over 5 years of experience in Lagos real estate, Gloria has helped countless 
+                        With over 5 years of experience in Lagos real estate, Anu has helped countless 
                         families find their dream homes and secure profitable investments.
                       </p>
                       <div className="space-y-2">
@@ -157,8 +157,8 @@ export default function AboutPage() {
                     <div className="flex-1 text-center">
                       <div className="w-48 h-48 rounded-full overflow-hidden mx-auto border-4 border-accent shadow-xl bg-accent/10">
                         <Image
-                          src="/images/gloria.jpg"
-                          alt="Gloria - Founder & CEO of Mides Global Realtors"
+                          src="/images/anu.jpg"
+                          alt="Anu - Founder & CEO of Mides Global Realtors"
                           width={474}
                           height={474}
                           className="object-cover w-full h-full"
@@ -203,7 +203,7 @@ export default function AboutPage() {
                     onClick={() => window.open("https://wa.me/2349033581493", "_blank")}
                     className="bg-white text-accent px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
                   >
-                    Contact Gloria Today
+                    Contact Anu Today
                   </button>
                 </div>
               </motion.div>
